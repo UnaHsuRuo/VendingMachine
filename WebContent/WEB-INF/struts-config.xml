@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+    <form-beans>
+        <form-bean name="BackendActionForm" type="com.training.formbean.BackendActionForm"/>
+        <form-bean name="GoodsOrderForm" type="com.training.formbean.GoodsOrderForm"/>
+    </form-beans>
+    <action-mappings>    
+    
+            <action path="/LoginAction" type="com.training.action.LoginAction" parameter="action">
+            <!-- 登入成功進入操作首頁 -->
+            <forward name="success" path="FrontendAction.do?action=searchGoods" redirect="true"/>
+            <!-- 登入失敗重回登入頁面 -->
+            <forward name="fail" path="/MemberLogin.jsp"/>
+     
+        </action>
+        
+        <!-- 後臺列表 -->
+        <action path="/BackendAction" type="com.training.action.BackendAction" 
+        		parameter="action" name="BackendActionForm">
+        	<!-- 查詢商品 -->
+            <forward name="goodsListView" path="/WEB-INF/view/VM_Backend_GoodsList.jsp"/>
+            <!-- 補貨商品 -->
+            <forward name="modifyGoodsView" path="/WEB-INF/view/VM_Backend_GoodsReplenishment.jsp"/>
+            <!-- 新增商品 -->
+            <forward name="createGoodsView" path="/WEB-INF/view/VM_Backend_GoodsCreate.jsp"/>
+            <!-- 銷售報表 -->
+            <forward name="saleReportView" path="/WEB-INF/view/VM_Backend_GoodsSaleReport.jsp"/>
+        </action>
+        
+        <!-- 前臺列表 -->
+        <action path="/FrontendAction" type="com.training.action.FrontendAction" 
+        		parameter="action" name="GoodsOrderForm">
+        	<!-- 所有商品 -->
+        	<forward name="searchGoods" path="/FrontendAction.do?action=searchGoods" redirect="true"/>
+            <!-- <forward name="VendingMachineView" path="/WEB-INF/view/VendingMachine.jsp"/> -->
+            <forward name="VendingMachineCartView" path="/WEB-INF/view/VendingMachine.jsp"/>
+        </action>
+        
+		<action path="/MemberAction" type="com.training.action.MemberAction" parameter="action">
+			<!-- 商品加入購物車 -->
+			<forward name="queryCartGoods" path="/MemberAction.do?action=queryCartGoods"/>
+		    <forward name="VendingMachineCartView" path="/WEB-INF/view/VendingMachine.jsp"/>
+		</action>
+    </action-mappings>
+</struts-config>
